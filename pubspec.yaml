@@ -39,6 +39,7 @@ dependencies:
   get: ^4.6.6
   responsive_grid: ^2.4.4
   fl_chart: ^0.69.0
+  google_mobile_ads: ^1.2.0
 
 dev_dependencies:
   flutter_test:
