@@ -1,10 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:survey_pilkada_cianjur/helpers/ad_helper.dart';
 import 'package:survey_pilkada_cianjur/screens/candidate_screen.dart';
 import 'package:survey_pilkada_cianjur/screens/quick_count_screen.dart';
 import 'package:survey_pilkada_cianjur/screens/voting_screen.dart';
 import 'package:survey_pilkada_cianjur/themes/fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,6 +18,89 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  BannerAd? _bannerAd;
+  InterstitialAd? _interstitialAd;
+  bool isInterstitialAdLoaded = false;
+  String _deviceID = '-';
+
+  Future<void> _getDeviceID() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    setState(() {
+      _deviceID = androidDeviceInfo.androidId;
+    });
+  }
+
+  Future<void> _getIsStatusVote() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isStatusVote', false);
+  }
+
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
+  }
+
+  _moveToQuickCountScreen() {
+    Get.to(const QuickCountScreen(), transition: Transition.rightToLeft);
+  }
+
+  _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          ad.fullScreenContentCallback =
+              FullScreenContentCallback(onAdDismissedFullScreenContent: (ad) {
+            _moveToQuickCountScreen();
+          });
+
+          setState(() {
+            _interstitialAd = ad;
+          });
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+        },
+      ),
+    );
+  }
+
+  _loadBannerAd() {
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+      ),
+    ).load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initGoogleMobileAds();
+    _loadBannerAd();
+    _loadInterstitialAd();
+    _getDeviceID();
+    _getIsStatusVote();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    _interstitialAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const SizedBox(
-            height: 32,
+            height: 24,
           ),
           Container(
             margin: EdgeInsets.only(
@@ -112,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(
-            height: 200,
+            height: 130,
             child: GridView.count(
               crossAxisCount: 3,
               shrinkWrap: true,
@@ -123,7 +210,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(VotingScreen());
+                        Get.to(
+                          VotingScreen(
+                            deviceID: _deviceID.toString(),
+                          ),
+                          transition: Transition.rightToLeft,
+                        );
                       },
                       child: Container(
                         width: 60,
@@ -132,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                           color: primaryColor.withOpacity(1),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.poll,
                           color: Colors.white,
                           size: 30,
@@ -153,7 +245,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(const QuickCountScreen());
+                        if (!isInterstitialAdLoaded) {
+                          if (_interstitialAd != null) {
+                            _interstitialAd?.show();
+                            setState(() {
+                              isInterstitialAdLoaded = true;
+                            });
+                          } else {
+                            _moveToQuickCountScreen();
+                            setState(() {
+                              isInterstitialAdLoaded = true;
+                            });
+                          }
+                        } else {
+                          _moveToQuickCountScreen();
+                        }
                       },
                       child: Container(
                         width: 60,
@@ -162,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                           color: primaryColor.withOpacity(1),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.pie_chart,
                           color: Colors.white,
                           size: 30,
@@ -183,7 +289,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(const CandidateScreen());
+                        Get.to(
+                          const CandidateScreen(),
+                          transition: Transition.rightToLeft,
+                        );
                       },
                       child: Container(
                         width: 60,
@@ -192,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           shape: BoxShape.circle,
                           color: primaryColor.withOpacity(1),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.person_search,
                           color: Colors.white,
                           size: 30,
@@ -211,6 +320,30 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
+          Container(
+            margin: EdgeInsets.only(
+              left: defaultMargin,
+              right: defaultMargin,
+            ),
+            child: Text(
+              'Your Device ID : ${_deviceID.toString()}',
+              style: blackTextStyle.copyWith(
+                fontSize: 12,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          if (_bannerAd != null)
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: SizedBox(
+                width: _bannerAd!.size.width.toDouble(),
+                height: _bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
+            )
         ],
       ),
     );

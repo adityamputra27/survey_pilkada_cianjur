@@ -1,14 +1,116 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_core/get_core.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:survey_pilkada_cianjur/helpers/ad_helper.dart';
+import 'package:survey_pilkada_cianjur/screens/home_screen.dart';
+import 'package:survey_pilkada_cianjur/shared/custom_snackbar.dart';
+import 'package:survey_pilkada_cianjur/shared/global_loading.dart';
 import 'package:survey_pilkada_cianjur/themes/fonts.dart';
+import 'package:http/http.dart' as http;
 
 class VotingScreen extends StatefulWidget {
-  const VotingScreen({super.key});
+  final String deviceID;
+  const VotingScreen({
+    super.key,
+    required this.deviceID,
+  });
 
   @override
   State<VotingScreen> createState() => _VotingScreenState();
 }
 
 class _VotingScreenState extends State<VotingScreen> {
+  BannerAd? _bannerAd;
+  bool isStatusVote = false;
+
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
+  }
+
+  Future<void> _getIsStatusVote() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isStatusVote = prefs.getBool('isStatusVote')!;
+    });
+  }
+
+  Future<void> _createVoteCandidateApi(String candidateUUID) async {
+    GlobalLoading().show(context, true, 'Loading...');
+    try {
+      final response = await http.post(
+        Uri.parse(
+          'http://survey-pilkada-cianjur.dittmptrr27.com/api/votes/create',
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          "Survey-Pilkada-Cianjur": "www.dittmptrr27.com"
+        },
+        body: jsonEncode(<String, String>{
+          'deviceID': widget.deviceID,
+          'candidateID': candidateUUID,
+          'voteTotal': '1',
+        }),
+      );
+
+      var responseData = jsonDecode(response.body);
+      if (responseData['status'] == 'success') {
+        SnackbarCustom.showSuccess(
+            context, 'Terima kasih sudah mengikuti survey!');
+      } else {
+        SnackbarCustom.showError(context, 'Anda sudah mengikuti survey!');
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isStatusVote', true);
+
+      GlobalLoading().hide();
+      Timer(const Duration(seconds: 1), () {
+        Get.off(const HomeScreen(), transition: Transition.rightToLeft);
+      });
+
+      setState(() {});
+    } catch (e) {
+      debugPrint('Exception: $e');
+    }
+  }
+
+  _loadBannerAd() {
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+      ),
+    ).load();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initGoogleMobileAds();
+    _loadBannerAd();
+    _getIsStatusVote();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -209,20 +311,25 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () {},
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
-                                                primaryColor,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Pilih Kandidat',
-                                              style: whiteTextStyle,
-                                            ),
-                                          ),
+                                          isStatusVote
+                                              ? TextButton(
+                                                  onPressed: () {
+                                                    _createVoteCandidateApi(
+                                                        'afdf9c78-2449-4079-ba99-44383f94bbec');
+                                                  },
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    'Pilih Kandidat',
+                                                    style: whiteTextStyle,
+                                                  ),
+                                                )
+                                              : const SizedBox(),
                                         ],
                                       ),
                                     ],
@@ -407,20 +514,27 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () {},
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
-                                                primaryColor,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Pilih Kandidat',
-                                              style: whiteTextStyle,
-                                            ),
-                                          ),
+                                          isStatusVote
+                                              ? TextButton(
+                                                  onPressed: () {
+                                                    _createVoteCandidateApi(
+                                                        '48b94dfe-7ed3-4a5c-862a-ffacfd5ac1e5');
+                                                  },
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                  child: isStatusVote
+                                                      ? Text(
+                                                          'Pilih Kandidat',
+                                                          style: whiteTextStyle,
+                                                        )
+                                                      : const SizedBox(),
+                                                )
+                                              : const SizedBox(),
                                         ],
                                       ),
                                     ],
@@ -597,20 +711,27 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          TextButton(
-                                            onPressed: () {},
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<
-                                                      Color>(
-                                                primaryColor,
-                                              ),
-                                            ),
-                                            child: Text(
-                                              'Pilih Kandidat',
-                                              style: whiteTextStyle,
-                                            ),
-                                          ),
+                                          isStatusVote
+                                              ? TextButton(
+                                                  onPressed: () {
+                                                    _createVoteCandidateApi(
+                                                        '0aa0e689-6bf7-4c13-921a-b408a29df3c4');
+                                                  },
+                                                  style: ButtonStyle(
+                                                    backgroundColor:
+                                                        MaterialStateProperty
+                                                            .all<Color>(
+                                                      primaryColor,
+                                                    ),
+                                                  ),
+                                                  child: isStatusVote
+                                                      ? Text(
+                                                          'Pilih Kandidat',
+                                                          style: whiteTextStyle,
+                                                        )
+                                                      : const SizedBox(),
+                                                )
+                                              : const SizedBox(),
                                         ],
                                       ),
                                     ],
@@ -632,6 +753,18 @@ class _VotingScreenState extends State<VotingScreen> {
             ),
             SizedBox(
               height: defaultMargin,
+            ),
+            Container(
+              child: _bannerAd != null
+                  ? Align(
+                      alignment: Alignment.bottomCenter,
+                      child: SizedBox(
+                        width: _bannerAd!.size.width.toDouble(),
+                        height: _bannerAd!.size.height.toDouble(),
+                        child: AdWidget(ad: _bannerAd!),
+                      ),
+                    )
+                  : const SizedBox(),
             ),
           ],
         ),
