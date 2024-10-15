@@ -40,6 +40,10 @@ dependencies:
   responsive_grid: ^2.4.4
   fl_chart: ^0.69.0
   google_mobile_ads: ^1.2.0
+  device_info: ^2.0.3
+  http: ^1.2.2
+  dio: ^5.7.0
+  shared_preferences: ^2.2.3
 
 dev_dependencies:
   flutter_test:

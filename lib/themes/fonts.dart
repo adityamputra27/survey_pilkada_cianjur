@@ -6,7 +6,7 @@ double defaultMargin = 20;
 double defaultPadding = 20;
 double defaultRadius = 8;
 
-Color primaryColor = const Color.fromRGBO(47, 112, 182, 1);
+Color primaryColor = const Color(0xff0E1C54);
 Color blackColor = const Color(0xff141A23);
 Color whiteColor = const Color(0xffFFFFFF);
 Color successColor = const Color(0xff4BAE4F);

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -7,6 +8,7 @@ import 'package:survey_pilkada_cianjur/screens/candidate_screen.dart';
 import 'package:survey_pilkada_cianjur/screens/quick_count_screen.dart';
 import 'package:survey_pilkada_cianjur/screens/voting_screen.dart';
 import 'package:survey_pilkada_cianjur/themes/fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -19,13 +21,27 @@ class _HomeScreenState extends State<HomeScreen> {
   BannerAd? _bannerAd;
   InterstitialAd? _interstitialAd;
   bool isInterstitialAdLoaded = false;
+  String _deviceID = '-';
+
+  Future<void> _getDeviceID() async {
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    AndroidDeviceInfo androidDeviceInfo = await deviceInfo.androidInfo;
+    setState(() {
+      _deviceID = androidDeviceInfo.androidId;
+    });
+  }
+
+  Future<void> _getIsStatusVote() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isStatusVote', false);
+  }
 
   Future<InitializationStatus> _initGoogleMobileAds() {
     return MobileAds.instance.initialize();
   }
 
   _moveToQuickCountScreen() {
-    Get.to(QuickCountScreen());
+    Get.to(const QuickCountScreen(), transition: Transition.rightToLeft);
   }
 
   _loadInterstitialAd() {
@@ -74,6 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _initGoogleMobileAds();
     _loadBannerAd();
     _loadInterstitialAd();
+    _getDeviceID();
+    _getIsStatusVote();
   }
 
   @override
@@ -181,7 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           SizedBox(
-            height: 150,
+            height: 130,
             child: GridView.count(
               crossAxisCount: 3,
               shrinkWrap: true,
@@ -192,7 +210,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(const VotingScreen());
+                        Get.to(
+                          VotingScreen(
+                            deviceID: _deviceID.toString(),
+                          ),
+                          transition: Transition.rightToLeft,
+                        );
                       },
                       child: Container(
                         width: 60,
@@ -266,7 +289,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        Get.to(const CandidateScreen());
+                        Get.to(
+                          const CandidateScreen(),
+                          transition: Transition.rightToLeft,
+                        );
                       },
                       child: Container(
                         width: 60,
@@ -293,6 +319,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              left: defaultMargin,
+              right: defaultMargin,
+            ),
+            child: Text(
+              'Your Device ID : ${_deviceID.toString()}',
+              style: blackTextStyle.copyWith(
+                fontSize: 12,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 24,
           ),
           if (_bannerAd != null)
             Align(
