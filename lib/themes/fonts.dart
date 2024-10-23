@@ -42,6 +42,11 @@ TextStyle successTextStyle = TextStyle(
   color: successColor,
 );
 
+TextStyle dangerTextStyle = TextStyle(
+  fontFamily: fontFamily,
+  color: dangerColor,
+);
+
 FontWeight light = FontWeight.w300;
 FontWeight reguler = FontWeight.w400;
 FontWeight medium = FontWeight.w500;

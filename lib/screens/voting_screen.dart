@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:survey_pilkada_cianjur/helpers/ad_helper.dart';
@@ -311,25 +310,23 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          isStatusVote
-                                              ? TextButton(
-                                                  onPressed: () {
-                                                    _createVoteCandidateApi(
-                                                        'afdf9c78-2449-4079-ba99-44383f94bbec');
-                                                  },
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      primaryColor,
-                                                    ),
-                                                  ),
-                                                  child: Text(
-                                                    'Pilih Kandidat',
-                                                    style: whiteTextStyle,
-                                                  ),
-                                                )
-                                              : const SizedBox(),
+                                          TextButton(
+                                            onPressed: () {
+                                              _createVoteCandidateApi(
+                                                  'afdf9c78-2449-4079-ba99-44383f94bbec');
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(
+                                                primaryColor,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Pilih Kandidat',
+                                              style: whiteTextStyle,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
@@ -514,27 +511,22 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          isStatusVote
-                                              ? TextButton(
-                                                  onPressed: () {
-                                                    _createVoteCandidateApi(
-                                                        '48b94dfe-7ed3-4a5c-862a-ffacfd5ac1e5');
-                                                  },
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      primaryColor,
-                                                    ),
-                                                  ),
-                                                  child: isStatusVote
-                                                      ? Text(
-                                                          'Pilih Kandidat',
-                                                          style: whiteTextStyle,
-                                                        )
-                                                      : const SizedBox(),
-                                                )
-                                              : const SizedBox(),
+                                          TextButton(
+                                              onPressed: () {
+                                                _createVoteCandidateApi(
+                                                    '48b94dfe-7ed3-4a5c-862a-ffacfd5ac1e5');
+                                              },
+                                              style: ButtonStyle(
+                                                backgroundColor:
+                                                    MaterialStateProperty.all<
+                                                        Color>(
+                                                  primaryColor,
+                                                ),
+                                              ),
+                                              child: Text(
+                                                'Pilih Kandidat',
+                                                style: whiteTextStyle,
+                                              ))
                                         ],
                                       ),
                                     ],
@@ -711,27 +703,23 @@ class _VotingScreenState extends State<VotingScreen> {
                                               style: blackTextStyle,
                                             ),
                                           ),
-                                          isStatusVote
-                                              ? TextButton(
-                                                  onPressed: () {
-                                                    _createVoteCandidateApi(
-                                                        '0aa0e689-6bf7-4c13-921a-b408a29df3c4');
-                                                  },
-                                                  style: ButtonStyle(
-                                                    backgroundColor:
-                                                        MaterialStateProperty
-                                                            .all<Color>(
-                                                      primaryColor,
-                                                    ),
-                                                  ),
-                                                  child: isStatusVote
-                                                      ? Text(
-                                                          'Pilih Kandidat',
-                                                          style: whiteTextStyle,
-                                                        )
-                                                      : const SizedBox(),
-                                                )
-                                              : const SizedBox(),
+                                          TextButton(
+                                            onPressed: () {
+                                              _createVoteCandidateApi(
+                                                  '0aa0e689-6bf7-4c13-921a-b408a29df3c4');
+                                            },
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all<
+                                                      Color>(
+                                                primaryColor,
+                                              ),
+                                            ),
+                                            child: Text(
+                                              'Pilih Kandidat',
+                                              style: whiteTextStyle,
+                                            ),
+                                          )
                                         ],
                                       ),
                                     ],
