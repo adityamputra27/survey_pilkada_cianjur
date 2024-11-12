@@ -159,7 +159,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 DefaultTextStyle(
                   style: whiteTextStyle,
                   child: Text(
-                    'www.dittmptrr27.com',
+                    'dittmptrr27.com',
                     style: whiteTextStyle.copyWith(fontSize: 12),
                   ),
                 ),

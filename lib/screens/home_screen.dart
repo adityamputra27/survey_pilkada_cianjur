@@ -319,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 24),
                           Text(
-                            'www.dittmptrr27.com',
+                            'dittmptrr27.com',
                             style: blackTextStyle.copyWith(
                               fontWeight: medium,
                               fontSize: 10,

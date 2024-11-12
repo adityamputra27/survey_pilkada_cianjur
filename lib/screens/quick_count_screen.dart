@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:responsive_grid/responsive_grid.dart';
+import 'package:survey_pilkada_cianjur/helpers/ad_helper.dart';
 import 'package:survey_pilkada_cianjur/themes/fonts.dart';
 
 class QuickCountScreen extends StatefulWidget {
@@ -12,12 +14,13 @@ class QuickCountScreen extends StatefulWidget {
 }
 
 class _QuickCountScreenState extends State<QuickCountScreen> {
+  BannerAd? _bannerAd;
   var quickCountData = [];
   Future<void> _fetchQuickCountApi() async {
     try {
       Dio dio = Dio();
       Response response = await dio.get(
-        "http://survey-pilkada-cianjur.dittmptrr27.com/api/quick-count",
+        "https://survey-pilkada-cianjur.dittmptrr27.com/api/quick-count",
         options: Options(
           headers: {
             "Content-Type": "application/json",
@@ -37,10 +40,35 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
     }
   }
 
+  _loadBannerAd() {
+    BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(() {
+            _bannerAd = ad as BannerAd;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          ad.dispose();
+        },
+      ),
+    ).load();
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchQuickCountApi();
+    _loadBannerAd();
+  }
+
+  @override
+  void dispose() {
+    _bannerAd?.dispose();
+    super.dispose();
   }
 
   @override
@@ -63,14 +91,6 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
         margin: EdgeInsets.all(defaultMargin),
         child: ListView(
           children: [
-            Text(
-              'Hasil perolehan survey dan presentase suara',
-              style: blackTextStyle,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
             Card(
               elevation: 5,
               color: whiteColor,
@@ -92,15 +112,23 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                           xs: 4,
                           child: Column(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(defaultRadius),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '01',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 24,
+                                  fontWeight: bold,
                                 ),
-                                child: Image.asset(
-                                  'assets/images/1.jpg',
-                                  height: 150,
-                                  fit: BoxFit.cover,
-                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Image.asset(
+                                'assets/images/1.jpg',
+                                height: 150,
+                                fit: BoxFit.cover,
                               ),
                               Container(
                                 padding: const EdgeInsets.only(
@@ -112,6 +140,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                       .toString(),
                                   style: blackTextStyle.copyWith(
                                     fontWeight: bold,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -122,6 +151,19 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                           xs: 4,
                           child: Column(
                             children: [
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '02',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 24,
+                                  fontWeight: bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
                               Image.asset(
                                 'assets/images/2.jpg',
                                 height: 150,
@@ -137,6 +179,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                       .toString(),
                                   style: blackTextStyle.copyWith(
                                     fontWeight: bold,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -147,15 +190,23 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                           xs: 4,
                           child: Column(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(defaultRadius),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Text(
+                                '03',
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 24,
+                                  fontWeight: bold,
                                 ),
-                                child: Image.asset(
-                                  'assets/images/3.jpg',
-                                  height: 150,
-                                  fit: BoxFit.cover,
-                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Image.asset(
+                                'assets/images/3.jpg',
+                                height: 150,
+                                fit: BoxFit.cover,
                               ),
                               Container(
                                 padding: const EdgeInsets.only(
@@ -167,6 +218,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                       .toString(),
                                   style: blackTextStyle.copyWith(
                                     fontWeight: bold,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -176,6 +228,18 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                       ],
                     ),
             ),
+            const SizedBox(
+              height: 24,
+            ),
+            if (_bannerAd != null)
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  width: _bannerAd!.size.width.toDouble(),
+                  height: _bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: _bannerAd!),
+                ),
+              ),
             const SizedBox(
               height: 24,
             ),

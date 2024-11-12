@@ -43,7 +43,7 @@ class _VotingScreenState extends State<VotingScreen> {
     try {
       final response = await http.post(
         Uri.parse(
-          'http://survey-pilkada-cianjur.dittmptrr27.com/api/votes/create',
+          'https://survey-pilkada-cianjur.dittmptrr27.com/api/votes/create',
         ),
         headers: <String, String>{
           'Content-Type': 'application/json',

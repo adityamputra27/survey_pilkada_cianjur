@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:survey_pilkada_cianjur/screens/home_screen.dart';
 import 'package:survey_pilkada_cianjur/themes/fonts.dart';
@@ -215,7 +214,7 @@ class InformationScreen extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              'www.dittmptrr27.com',
+              'dittmptrr27.com',
               style: blackTextStyle.copyWith(
                 fontWeight: medium,
                 fontSize: 10,
