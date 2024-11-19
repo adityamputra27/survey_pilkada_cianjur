@@ -49,7 +49,14 @@ class _SplashScreenState extends State<SplashScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+                        '[id] Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+                        style: primaryTextStyle,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        '[en] This app is not affiliated with any government entity and does not represent government services.',
                         style: primaryTextStyle,
                       ),
                       Row(

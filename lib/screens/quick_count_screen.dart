@@ -347,7 +347,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                           width: 8,
                                         ),
                                         Text(
-                                          'Herman - Ibang (${quickCountData[0]['voteTotal'].toString()} suara)',
+                                          'Herman - Ibang',
                                           style: blackTextStyle.copyWith(),
                                         ),
                                       ],
@@ -373,7 +373,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                           width: 8,
                                         ),
                                         Text(
-                                          'dr Wahyu - Ramzi (${quickCountData[1]['voteTotal'].toString()} suara)',
+                                          'dr Wahyu - Ramzi',
                                           style: blackTextStyle.copyWith(),
                                         ),
                                       ],
@@ -399,7 +399,7 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                                           width: 8,
                                         ),
                                         Text(
-                                          'Deden - dr Efa (${quickCountData[2]['voteTotal'].toString()} suara)',
+                                          'Deden - dr Efa',
                                           style: blackTextStyle.copyWith(),
                                         ),
                                       ],
@@ -409,6 +409,16 @@ class _QuickCountScreenState extends State<QuickCountScreen> {
                               )
                             ],
                           ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      'Total responden survey : ${quickCountData.isNotEmpty ? quickCountData[0]['voteTotal'] + quickCountData[1]['voteTotal'] + quickCountData[2]['voteTotal'] : 0} suara',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                      ),
+                    ),
                   ],
                 ),
               ),

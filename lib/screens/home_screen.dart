@@ -175,8 +175,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Visi & Misi',
-                              style: blackTextStyle,
+                              '- Visi & Misi',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -199,8 +203,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Program Unggulan',
-                              style: blackTextStyle,
+                              '- Program Unggulan',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           Text(
@@ -227,8 +235,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Visi & Misi',
-                              style: blackTextStyle,
+                              '- Visi & Misi',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -251,8 +263,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Program Unggulan',
-                              style: blackTextStyle,
+                              '- Program Unggulan',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           Text(
@@ -279,8 +295,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Visi & Misi',
-                              style: blackTextStyle,
+                              '- Visi & Misi',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           TextButton(
@@ -303,13 +323,80 @@ class _HomeScreenState extends State<HomeScreen> {
                               }
                             },
                             child: Text(
-                              '   - Program Unggulan',
-                              style: blackTextStyle,
+                              '- Program Unggulan',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
                             ),
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Disclaimer: Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+                            'Kebijakan dan Privasi',
+                            style: blackTextStyle.copyWith(
+                              fontSize: 18,
+                              fontWeight: bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Lihat kebijakan dan privasi pada link berikut:',
+                            style: blackTextStyle,
+                          ),
+                          const SizedBox(height: 8),
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              elevation: 0,
+                              overlayColor: Colors.transparent,
+                              splashFactory: NoSplash.splashFactory,
+                            ),
+                            isSemanticButton: false,
+                            onPressed: () async {
+                              final Uri url = Uri.parse(
+                                  'https://dittmptrr27.com/survey_pilkada_cianjur/privacy-policy.html');
+                              if (await canLaunch(url.toString())) {
+                                await launch(url.toString());
+                              } else {
+                                throw 'Could not launch $url';
+                              }
+                            },
+                            child: Text(
+                              '[link]',
+                              style: blackTextStyle.copyWith(
+                                color: Colors.lightBlue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.lightBlue,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Disclaimer:',
+                            style: blackTextStyle.copyWith(
+                              fontWeight: medium,
+                              fontSize: 12,
+                              color: Colors
+                                  .red, // Memberi penekanan pada disclaimer
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            '[id] Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+                            style: blackTextStyle.copyWith(
+                              fontWeight: medium,
+                              fontSize: 12,
+                              color: Colors
+                                  .red, // Memberi penekanan pada disclaimer
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            '[en] This app is not affiliated with any government entity and does not represent government services.',
                             style: blackTextStyle.copyWith(
                               fontWeight: medium,
                               fontSize: 12,
@@ -327,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(height: 24),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               TextButton(
                                 onPressed: () {
@@ -369,8 +456,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
           Container(
             margin: EdgeInsets.only(
@@ -444,6 +530,22 @@ class _HomeScreenState extends State<HomeScreen> {
               right: defaultMargin,
             ),
             child: Text(
+              'Your Device ID : ${_deviceID.toString()}',
+              style: blackTextStyle.copyWith(
+                fontSize: 12,
+                fontWeight: medium,
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 14,
+          ),
+          Container(
+            margin: EdgeInsets.only(
+              left: defaultMargin,
+              right: defaultMargin,
+            ),
+            child: Text(
               'Menu',
               style: blackTextStyle.copyWith(
                 fontSize: 16,
@@ -451,10 +553,18 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          SizedBox(
-            height: 130,
+          const SizedBox(
+            height: 16,
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              left: 10,
+              right: 10,
+            ),
+            height: 120,
             child: GridView.count(
-              crossAxisCount: 3,
+              crossAxisSpacing: 0,
+              crossAxisCount: 4,
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               children: [
@@ -489,7 +599,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       'Mulai Survey',
-                      style: blackTextStyle.copyWith(fontSize: 12),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                      ),
                     ),
                   ],
                 ),
@@ -533,7 +646,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       'Quick Count',
-                      style: blackTextStyle.copyWith(fontSize: 12),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                      ),
                     ),
                   ],
                 ),
@@ -566,7 +682,131 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Text(
                       'Lihat Kandidat',
-                      style: blackTextStyle.copyWith(fontSize: 12),
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        showModalBottomSheet<void>(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SingleChildScrollView(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(16),
+                                    topRight: Radius.circular(16),
+                                  ),
+                                  color: whiteColor,
+                                ),
+                                padding: EdgeInsets.all(defaultPadding),
+                                width: double.infinity,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      'Syarat Pemilih',
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Berikut syarat pemilih Pilkada 2024 menurut Pasal 4 PKPU Nomor 7 Tahun 2024.',
+                                      style: blackTextStyle,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '1. Memiliki KTP-elektronik, KK, biodata penduduk, atau IKD. \n'
+                                      '2. Tidak sedang dicabut hak pilihnya berdasarkan putusan pengadilan yang telah mempunyai kekuatan hukum tetap.\n'
+                                      '3. Tidak sedang menjadi prajurit Tentara Nasional Indonesia atau anggota Kepolisian Negara Republik Indonesia.\n',
+                                      style: blackTextStyle,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      'Cara Cek Data Pemilih Pilkada 2024',
+                                      style: blackTextStyle.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'Data pemilih Pilkada 2024 tercantum dalam Daftar Pemilih Tetap (DPT). Berikut cara mengecek DPT Pilkada 2024.',
+                                      style: blackTextStyle,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      '1. Buka situs DPT di https://cekdptonline.kpu.go.id/ \n'
+                                      '2. Lalu, masukkan 16 digit Nomor Induk Kependudukan (NIK) \n'
+                                      '3. Masukkan nomor HP (WhatsApp) untuk dikirim kode OTP \n'
+                                      '4. Kemudian, masukkan kode OTP yang terkirim melalui WhatsApp  \n'
+                                      "5. Klik 'Konfirmasi' \n"
+                                      "6. Setelah itu, akan muncul data pemilih berupa (Nama lengkap pemilih, NIK dan NKK, Nomor dan Lokasi TPS, Kabupaten/Kota, kecamatan dan kelurahan) \n",
+                                      style: blackTextStyle,
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          style: ButtonStyle(
+                                            backgroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(
+                                              lightGreyColor,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Tutup',
+                                            style: blackTextStyle,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                      child: Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: primaryColor.withOpacity(1),
+                        ),
+                        child: const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 12,
+                    ),
+                    Text(
+                      'Syarat Pemilih',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                        fontWeight: medium,
+                      ),
                     ),
                   ],
                 ),
@@ -574,29 +814,124 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Container(
+            child: _bannerAd != null
+                ? Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: _bannerAd!.size.width.toDouble(),
+                      height: _bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd!),
+                    ),
+                  )
+                : const SizedBox(),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Container(
             margin: EdgeInsets.only(
               left: defaultMargin,
               right: defaultMargin,
             ),
             child: Text(
-              'Your Device ID : ${_deviceID.toString()}',
+              'Jadwal Kampanye',
               style: blackTextStyle.copyWith(
-                fontSize: 12,
+                fontSize: 16,
+                fontWeight: bold,
               ),
             ),
           ),
-          const SizedBox(
-            height: 24,
-          ),
-          if (_bannerAd != null)
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                width: _bannerAd!.size.width.toDouble(),
-                height: _bannerAd!.size.height.toDouble(),
-                child: AdWidget(ad: _bannerAd!),
+          Container(
+            margin: EdgeInsets.only(
+              left: defaultMargin,
+              right: defaultMargin,
+              top: 12,
+              bottom: defaultMargin,
+            ),
+            child: Card(
+              elevation: 5,
+              color: whiteColor,
+              child: Container(
+                padding: const EdgeInsets.all(
+                  12,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '1. Herman - Ibang | @bhsimanjur',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontWeight: bold,
+                      ),
+                    ),
+                    Text(
+                      '23 November 2024 | 07.00 - selesai',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Text(
+                      '2. dr. Wahyu - Ramzi | @wahyuramziofficial',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontWeight: bold,
+                      ),
+                    ),
+                    Text(
+                      '21 November 2024 | 07.00 - selesai',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Text(
+                      '3. Deden - dr. Efa | @dna_pemenang',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontWeight: bold,
+                      ),
+                    ),
+                    Text(
+                      '19 November 2024 | 07.00 - selesai',
+                      textAlign: TextAlign.left,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 12,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 14,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_pin,
+                          size: 20,
+                        ),
+                        const SizedBox(
+                          width: 6,
+                        ),
+                        Text(
+                          'Lap. Prawatasari Joglo Cianjur',
+                          textAlign: TextAlign.left,
+                          style: blackTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            )
+            ),
+          ),
         ],
       ),
     );

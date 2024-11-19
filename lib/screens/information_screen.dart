@@ -28,16 +28,21 @@ class InformationScreen extends StatelessWidget {
         ),
         padding: EdgeInsets.all(defaultPadding),
         width: double.infinity,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
           children: [
             Text(
               '1. Aplikasi ini menyediakan survei independen terkait pemungutan suara di Kab. Cianjur tahun 2024. \n'
               '2. Aplikasi ini tidak terafiliasi dengan pemerintah atau entitas resmi apa pun dan hanya bertujuan untuk menyajikan informasi secara independen.\n',
               style: blackTextStyle,
             ),
-            const SizedBox(height: 8),
+            Text(
+              'Scroll untuk tutup',
+              style: blackTextStyle.copyWith(
+                fontSize: 12,
+                fontWeight: bold,
+              ),
+            ),
+            const SizedBox(height: 32),
             Text(
               'Sumber Informasi',
               style: blackTextStyle.copyWith(
@@ -59,6 +64,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -71,8 +77,12 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Visi & Misi',
-                style: blackTextStyle,
+                '- Visi & Misi',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             TextButton(
@@ -83,6 +93,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -95,8 +106,12 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Program Unggulan',
-                style: blackTextStyle,
+                '- Program Unggulan',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             Text(
@@ -111,6 +126,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -123,8 +139,12 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Visi & Misi',
-                style: blackTextStyle,
+                '- Visi & Misi',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             TextButton(
@@ -135,6 +155,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -147,8 +168,12 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Program Unggulan',
-                style: blackTextStyle,
+                '- Program Unggulan',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             Text(
@@ -163,6 +188,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -175,8 +201,12 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Visi & Misi',
-                style: blackTextStyle,
+                '- Visi & Misi',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             TextButton(
@@ -187,6 +217,7 @@ class InformationScreen extends StatelessWidget {
                 elevation: 0,
                 overlayColor: Colors.transparent,
                 splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
               ),
               isSemanticButton: false,
               onPressed: () async {
@@ -199,13 +230,79 @@ class InformationScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                '   - Program Unggulan',
-                style: blackTextStyle,
+                '- Program Unggulan',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
               ),
             ),
             const SizedBox(height: 16),
             Text(
-              'Disclaimer: Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+              'Kebijakan dan Privasi',
+              style: blackTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Lihat kebijakan dan privasi pada link berikut:',
+              style: blackTextStyle,
+            ),
+            const SizedBox(height: 8),
+            TextButton(
+              style: TextButton.styleFrom(
+                minimumSize: Size.zero,
+                padding: EdgeInsets.zero,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                elevation: 0,
+                overlayColor: Colors.transparent,
+                splashFactory: NoSplash.splashFactory,
+                alignment: Alignment.centerLeft,
+              ),
+              isSemanticButton: false,
+              onPressed: () async {
+                final Uri url = Uri.parse(
+                    'https://dittmptrr27.com/survey_pilkada_cianjur/privacy-policy.html');
+                if (await canLaunch(url.toString())) {
+                  await launch(url.toString());
+                } else {
+                  throw 'Could not launch $url';
+                }
+              },
+              child: Text(
+                '[link]',
+                style: blackTextStyle.copyWith(
+                  color: Colors.lightBlue,
+                  decoration: TextDecoration.underline,
+                  decorationColor: Colors.lightBlue,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'Disclaimer:',
+              style: blackTextStyle.copyWith(
+                fontWeight: medium,
+                fontSize: 12,
+                color: Colors.red, // Memberi penekanan pada disclaimer
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '[id] Aplikasi ini tidak mewakili atau berafiliasi dengan entitas pemerintah manapun.',
+              style: blackTextStyle.copyWith(
+                fontWeight: medium,
+                fontSize: 12,
+                color: Colors.red, // Memberi penekanan pada disclaimer
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '[en] This app is not affiliated with any government entity and does not represent government services.',
               style: blackTextStyle.copyWith(
                 fontWeight: medium,
                 fontSize: 12,
